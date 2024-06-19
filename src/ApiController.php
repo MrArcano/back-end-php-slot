@@ -3,14 +3,20 @@
 require_once('Slot.php');
 
 class ApiController {
-    private $conn;
+    private $db;
 
-    public function __construct($conn) {
-        $this->conn = $conn;
+    public function __construct($db) {
+        $this->db = $db;
     }
 
-    public function handleRequest() {
+    public function handleRequest($config) {
 
+        // Check if the HTTP_ORIGIN is allowed with the config
+        if(isset($_SERVER['HTTP_ORIGIN']) && in_array($_SERVER['HTTP_ORIGIN'],$config['cors']['allowed_origins'])){
+            header("Access-Control-Allow-Origin: {$_SERVER['HTTP_ORIGIN']}");
+        }
+
+        // Set the response content type to JSON
         header('Content-Type: application/json');
 
         // Verifica il metodo HTTP
@@ -52,7 +58,7 @@ class ApiController {
     private function saveSlotToDatabase($slot){
         try {
             // Prepare the SQL statement
-            $stmt = $this->conn->prepare("INSERT INTO slot_matrices (matrix, created_at) VALUES (:matrix, NOW())");
+            $stmt = $this->db->getConnection()->prepare("INSERT INTO slot_matrices (matrix, created_at) VALUES (:matrix, NOW())");
 
             // Bind the parameter
             $stmt->bindValue(":matrix", json_encode($slot), PDO::PARAM_STR);
@@ -70,7 +76,8 @@ class ApiController {
                 ];
             }
 
-            $stmt->closeCursor(); // Chiudi il cursore
+            $stmt->closeCursor();
+            $this->db->closeConnection();
 
         } catch (PDOException $e) {
             $response = [
