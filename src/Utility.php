@@ -1,11 +1,13 @@
 <?php
 
-class Slot
+class Utility
 {
 
     private static $symbols = ['a', 'k', 'q', 'p-blond', 'p-brown', 'p-pink', 'bonus', 'wild', 'p-forest'];
 
-    private function __construct(){}
+    private function __construct()
+    {
+    }
 
     /**
      * generateSlotSymbols Function
@@ -41,7 +43,7 @@ class Slot
                     $index = 8;
                 }
 
-                $new_array[$j] = Slot::$symbols[$index];
+                $new_array[$j] = Utility::$symbols[$index];
             }
             array_push($slot, $new_array);
         }

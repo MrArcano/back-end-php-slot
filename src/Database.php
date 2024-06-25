@@ -15,9 +15,9 @@ class Database{
         // Use [PDO]
         try {
             $this->conn = new PDO(
-                "mysql:host={$config['db']['host']};dbname={$config['db']['dbname']}",
-                $config['db']['user'],
-                $config['db']['password']
+                "mysql:host={$config['host']};dbname={$config['dbname']}",
+                $config['user'],
+                $config['password']
             );
             // Imposta l'errore in modalità eccezione
             $this->conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
@@ -42,4 +42,3 @@ class Database{
     }
 
 }
-
