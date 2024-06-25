@@ -31,7 +31,7 @@ class ApiController
             ];
         } else {
             $response = [
-                'status' => 'success',
+                'status' => 'failure',
                 'data' => []
             ];
         }

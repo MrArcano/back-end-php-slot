@@ -22,10 +22,14 @@ class Router
     private static function notFoundResponse()
     {
         header("HTTP/1.0 404 Not Found");
-        echo json_encode([
+        header('Content-Type: application/json');
+
+        $response = [
             'status' => 'error',
             'message' => 'Endpoint not found'
-        ]);
+        ];
+
+        echo json_encode($response);
         exit;
     }
 }
